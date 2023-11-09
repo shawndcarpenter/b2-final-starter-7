@@ -1,0 +1,5 @@
+      <% @discounts.each do |d| %>
+        <section id="discount-<%= d.id %>">
+      <p><%= link_to "Discount ##{d.id}", merchant_discount_path(@merchant, d) %></p>
+      <p><%= d.percentage %> Percent Off when you buy <%= d.threshold %> items</p>
+  <% end %>
