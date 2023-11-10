@@ -14,4 +14,13 @@ class InvoiceItem < ApplicationRecord
     invoice_ids = InvoiceItem.where("status = 0 OR status = 1").pluck(:invoice_id)
     Invoice.order(created_at: :asc).find(invoice_ids)
   end
+
+  # US 6
+  def single_revenue
+    if Discount.best_available_discount(self) == []
+      unit_price * quantity
+    else
+      unit_price * quantity * Discount.best_available_discount(self).first.percent_multiplied
+    end
+  end
 end
