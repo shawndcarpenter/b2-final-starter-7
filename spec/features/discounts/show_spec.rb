@@ -13,7 +13,7 @@ RSpec.describe "discounts index page" do
   describe "User Story 4" do
     it "shows discount's quantity threshold and percentage discount" do
       visit merchant_discount_path(@merchant1, @discount1)
-      save_and_open_page
+
       expect(page).to have_content(@discount1.id)
       expect(page).to have_content("#{@discount1.percentage} Percent Off when you buy #{@discount1.threshold} items")
     end
