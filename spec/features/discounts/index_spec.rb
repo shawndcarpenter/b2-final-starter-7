@@ -38,4 +38,16 @@ RSpec.describe "discounts index page" do
 
     end
   end
+
+  describe "User Story 2" do
+    it "has a link to create a new discount" do
+      visit "/merchants/#{@merchant1.id}/discounts"
+
+      expect(page).to have_link("Create a New Discount")
+
+      click_link("Create a New Discount")
+
+      expect(current_path).to eq(new_merchant_discount_path(@merchant1))
+    end
+  end
 end
