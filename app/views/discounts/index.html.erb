@@ -9,4 +9,6 @@
       <p><%= link_to "Discount ##{d.id}", merchant_discount_path(@merchant, d) %></p>
       <p><%= d.percentage %> Percent Off when you buy <%= d.threshold %> items</p>
   <% end %>
+
+  <p><%= link_to "Create a New Discount", new_merchant_discount_path(@merchant) %></p>
 </body>
