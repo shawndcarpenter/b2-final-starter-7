@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "discounts index page" do
+RSpec.describe "merchant discount show page" do
   before :each do
     @merchant1 = Merchant.create!(name: "Target")
     @merchant2 = Merchant.create!(name: "William-Sonoma")
