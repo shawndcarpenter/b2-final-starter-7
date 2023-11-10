@@ -1,0 +1,9 @@
+<%= render partial: "shared/nav" %>
+
+<body>
+  <div class="row">
+    <p class='col-12'>My Discounts</p>
+  </div>
+      <h3>Discount #<%= @discount.id %></h3>
+      <p><%= @discount.percentage %> Percent Off when you buy <%= @discount.threshold %> items</p>
+</body>
