@@ -13,7 +13,7 @@ RSpec.describe "discounts index page" do
   describe "User Story 1" do
     it "shows bulk discounts" do
       visit "/merchants/#{@merchant1.id}/discounts"
-      save_and_open_page
+
       within("#discount-#{@discount1.id}") do
         expect(page).to have_link("Discount ##{@discount1.id}")
         expect(page).to have_content("#{@discount1.percentage} Percent Off when you buy #{@discount1.threshold} items")
