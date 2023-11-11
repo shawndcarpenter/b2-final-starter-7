@@ -23,4 +23,12 @@ class InvoiceItem < ApplicationRecord
       unit_price * quantity * Discount.best_available_discount(self).first.percent_multiplied
     end
   end
+
+  def discount_applicable?
+    Discount.best_available_discount(self) != []
+  end
+
+  def discount_id
+    Discount.best_available_discount(self).first.id
+  end
 end
