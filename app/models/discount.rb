@@ -7,8 +7,4 @@ class Discount < ApplicationRecord
   def percent_multiplied
     (100 - percentage) * 0.01
   end
-
-  def self.best_available_discount(invoice_item)
-    Discount.where("threshold <= #{invoice_item.quantity}").order(percentage: :desc).limit(1)
-  end
 end
