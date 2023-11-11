@@ -6,6 +6,7 @@ RSpec.describe Discount, type: :model do
     it { should validate_presence_of :threshold }
     it { should validate_numericality_of(:percentage) }
     it { should validate_numericality_of(:threshold) }
+    it { should validate_inclusion_of(:percentage).in_range(1..100) }
   end
   
   describe "relationships" do
