@@ -29,7 +29,8 @@ RSpec.describe "discounts index page" do
 
       click_button
 
-      expect(page).to have_content("Percentage can't be blank, Percentage is not a number, Threshold can't be blank, Threshold is not a number")
+      expect(page).to have_content("Percentage can't be blank") 
+      expect(page).to have_content("Threshold can't be blank")
     end
 
     it "must have numbers in fields" do
@@ -40,6 +41,16 @@ RSpec.describe "discounts index page" do
       click_button
 
       expect(page).to have_content("Error: Percentage is not a number")
+    end
+    
+    it "must have a number between 1 and 100 in percentage" do
+      visit new_merchant_discount_path(@merchant1)
+
+      fill_in :percentage, with: 1000
+      fill_in :threshold, with: 25
+      click_button
+
+      expect(page).to have_content("Error: Percentage is not included in the list")
     end
   end
 
