@@ -17,10 +17,22 @@ class InvoiceItem < ApplicationRecord
 
   # US 6
   def single_revenue
-    if Discount.best_available_discount(self) == []
+    if !discount_applicable?
       unit_price * quantity
     else
-      unit_price * quantity * Discount.best_available_discount(self).first.percent_multiplied
+      unit_price * quantity * self.best_available_discount.first.percent_multiplied
     end
+  end
+
+  def discount_applicable?
+    best_available_discount != []
+  end
+
+  def discount_id
+    best_available_discount.first.id
+  end
+
+  def best_available_discount
+    Discount.where("threshold <= #{self.quantity}").order(percentage: :desc).limit(1)
   end
 end

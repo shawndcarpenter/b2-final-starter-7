@@ -35,10 +35,4 @@ RSpec.describe Discount, type: :model do
       expect(@discount1.percent_multiplied).to eq(0.85)
     end
   end
-
-  describe "best_available_discount" do
-    it "gives best discount avaiable for an invoice item" do
-      expect(Discount.best_available_discount(@ii_1)).to eq([@discount7])
-    end
-  end
 end
