@@ -59,5 +59,14 @@ RSpec.describe InvoiceItem, type: :model do
     it "finds the discounted revenue from a single invoice_item" do
       expect(@ii_1.single_revenue).to eq(76.50)
     end
+
+    it "determines if a discount is available" do
+      expect(@ii_1.discount_applicable?).to eq(true)
+      expect(@ii_11.discount_applicable?).to eq(false)
+    end
+
+    it "finds the discount id for the best available discount for an invoice item" do
+      expect(@ii_1.discount_id).to eq(@discount1.id)
+    end
   end
 end
