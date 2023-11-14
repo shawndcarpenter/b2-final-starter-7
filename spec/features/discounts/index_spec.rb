@@ -80,5 +80,25 @@ RSpec.describe "discounts index page" do
       expect(page).to have_content("2023-12-25")
       expect(page).to have_content("2024-01-01")
     end
+
+    it "can create holiday discounts" do
+      visit merchant_discounts_path(@merchant1)
+      within('section', :class => "holiday-Thanksgiving Day") do
+        expect(page).to have_button("Create Discount")
+        click_button("Create Discount")
+      end
+      
+      expect(current_path).to eq(new_merchant_discount_path(@merchant1))
+      expect(page).to have_field(placeholder: "30")
+      expect(page).to have_field(placeholder: "2")
+
+      fill_in :percentage, with: 50
+      fill_in :threshold, with: 25
+
+      click_button
+
+      expect(current_path).to eq(merchant_discounts_path(@merchant1))
+      expect(page).to have_content("50 Percent Off when you buy 25 items")
+    end
   end
 end

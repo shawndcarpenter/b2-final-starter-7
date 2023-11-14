@@ -4,20 +4,25 @@
   <div class="row">
     <p class='col-12'>My Discounts</p>
   </div>
-      <% @discounts.each do |discount| %>
-        <section id="discount-<%= discount.id %>">
+
+  <% @discounts.each do |discount| %>
+    <section id="discount-<%= discount.id %>">
       <p><%= link_to "Discount ##{discount.id}", merchant_discount_path(@merchant, discount) %></p>
       <p><%= discount.percentage %> Percent Off when you buy <%= discount.threshold %> items</p>
       <p><%= button_to "Delete", merchant_discount_path(@merchant, discount), method: :delete %></p>
+    </section>
   <% end %>
 
   <h3>Next Three Holidays</h3>
   <ul>
     <% @holidays.each do |holiday| %>
-      <li><%= holiday.name %></li>
-      <%= holiday.date %>
+      <section class="holiday-<%= holiday.name %>">
+        <li><%= holiday.name %></li>
+          <%= holiday.date %>
+          <p><%= button_to "Create Discount", "/merchants/#{@merchant.id}/discounts", method: :post %></p>
+      </section>
     <% end %>
   </ul>
-  
+
   <p><%= link_to "Create a New Discount", new_merchant_discount_path(@merchant) %></p>
 </body>
