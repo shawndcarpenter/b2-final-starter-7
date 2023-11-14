@@ -8,12 +8,11 @@ RSpec.describe "merchant discount show page" do
     @discount2 = @merchant1.discounts.create!(percentage: 20, threshold: 10)
     @discount3 = @merchant1.discounts.create!(percentage: 30, threshold: 15)
     @discount4 = @merchant2.discounts.create!(percentage: 10, threshold: 20)
+    visit edit_merchant_discount_path(@merchant1, @discount1)
   end
 
   describe "User Story 5" do
     it "allows editing" do
-      visit edit_merchant_discount_path(@merchant1, @discount1)
-
       expect(find_field("Percentage").value).to eq("#{@discount1.percentage}")
       expect(find_field("Threshold").value).to eq("#{@discount1.threshold}")
 
@@ -26,8 +25,6 @@ RSpec.describe "merchant discount show page" do
     end
 
     it "gives errors if fields empty" do
-      visit edit_merchant_discount_path(@merchant1, @discount1)
-
       expect(find_field("Percentage").value).to eq("#{@discount1.percentage}")
       expect(find_field("Threshold").value).to eq("#{@discount1.threshold}")
 

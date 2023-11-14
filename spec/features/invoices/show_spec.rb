@@ -110,26 +110,21 @@ RSpec.describe "invoices show" do
       @ii_12 = InvoiceItem.create!(invoice_id: @invoice_8.id, item_id: @item_1.id, quantity: 20, unit_price: 10, status: 2)
       @ii_13 = InvoiceItem.create!(invoice_id: @invoice_8.id, item_id: @item_3.id, quantity: 10, unit_price: 5, status: 2)
       @ii_14 = InvoiceItem.create!(invoice_id: @invoice_8.id, item_id: @item_4.id, quantity: 2, unit_price: 5, status: 2)
+      visit merchant_invoice_path(@merchant1, @invoice_8)
     end
 
     describe "User Story 6" do
-      it "shows total revenue for my merchant from this invoice" do
-        visit merchant_invoice_path(@merchant1, @invoice_8)
-        
-        expect(page).to have_content("Revenue Before Discounts: #{@invoice_8.total_revenue}")
+      it "shows total revenue for my merchant from this invoice" do     
+        expect(page).to have_content("Revenue Before Discounts: $#{@invoice_8.total_revenue}")
       end
 
       it "shows total discounted revenue for my merchant" do
-        visit merchant_invoice_path(@merchant1, @invoice_8)
-
-        expect(page).to have_content("Revenue After Discounts: 190")
+        expect(page).to have_content("Revenue After Discounts: $190")
       end
     end
 
     describe "User Story 7" do
-      it "shows discounts applied per invoice_item" do
-        visit merchant_invoice_path(@merchant1, @invoice_8)
-        
+      it "shows discounts applied per invoice_item" do     
         within("#the-status-#{@ii_12.id}") do
           expect(page).to have_link("Discount ##{@discount3.id}")
         
@@ -140,8 +135,6 @@ RSpec.describe "invoices show" do
       end
 
       it "shows none applicable when no discounts are available" do
-        visit merchant_invoice_path(@merchant1, @invoice_8)
-
         within("#the-status-#{@ii_14.id}") do
           expect(page).to have_content("None Applicable")
         end

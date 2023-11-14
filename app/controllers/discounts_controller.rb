@@ -1,24 +1,24 @@
 class DiscountsController < ApplicationController
+  before_action :find_merchant, only: [:new, :index, :create]
+  before_action :find_merchant_and_discount, only: [:show, :destroy, :edit]
+
   def index 
-    @merchant = Merchant.find(params[:merchant_id])
     @discounts = @merchant.discounts
+    @holidays = HolidayService.get_holidays.first(3)
   end
 
   def show
-    @discount = Discount.find(params[:id])
-    @merchant = Merchant.find(params[:merchant_id])
+
   end
 
   def edit
-    @discount = Discount.find(params[:id])
-    @merchant = Merchant.find(params[:merchant_id])
+
   end
 
   def update
     @merchant = Merchant.find(params[:merchant_id])
     discount = Discount.find(params[:id])
     if discount.update(require_discount_params)
-      #(percentage: params[:percentage], threshold: params[:threshold])
       redirect_to merchant_discount_path(@merchant, discount)
       flash.notice = "Discount Has Been Updated!"
     else
@@ -28,11 +28,10 @@ class DiscountsController < ApplicationController
   end
 
   def new
-    @merchant = Merchant.find(params[:merchant_id])
+    
   end
 
   def create
-    @merchant = Merchant.find(params[:merchant_id])
     discount = @merchant.discounts.new(discount_params)
     if discount.save
       redirect_to merchant_discounts_path(@merchant)
@@ -44,9 +43,7 @@ class DiscountsController < ApplicationController
   end
 
   def destroy
-    @merchant = Merchant.find(params[:merchant_id])
-    discount = Discount.find(params[:id])
-    discount.destroy
+    @discount.destroy
     redirect_to merchant_discounts_path(@merchant)
   end
 
@@ -54,7 +51,17 @@ class DiscountsController < ApplicationController
   def discount_params
     params.permit(:percentage, :threshold, :merchant_id, :id)
   end
+
   def require_discount_params
     params.require(:discount).permit(:percentage, :threshold, :merchant_id, :id)
+  end
+
+  def find_merchant
+    @merchant = Merchant.find(params[:merchant_id])
+  end
+
+  def find_merchant_and_discount
+    @merchant = Merchant.find(params[:merchant_id])
+    @discount = Discount.find(params[:id])
   end
 end
