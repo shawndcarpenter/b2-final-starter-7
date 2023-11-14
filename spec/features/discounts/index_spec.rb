@@ -66,4 +66,19 @@ RSpec.describe "discounts index page" do
       expect(page).to have_link("Discount ##{@discount2.id}")
     end
   end
+
+  describe "holidays" do
+    it "has the next three US holidays listed" do
+      visit merchant_discounts_path(@merchant1)
+
+      expect(page).to have_content("Next Three Holidays")
+      expect(page).to have_content("Thanksgiving Day")
+      expect(page).to have_content("Christmas Day")
+      expect(page).to have_content("New Year's Day")
+      expect(page).to_not have_content("Martin Luther King, Jr. Day")
+      expect(page).to have_content("2023-11-23")
+      expect(page).to have_content("2023-12-25")
+      expect(page).to have_content("2024-01-01")
+    end
+  end
 end
