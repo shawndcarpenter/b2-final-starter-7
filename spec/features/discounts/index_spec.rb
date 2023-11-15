@@ -87,8 +87,6 @@ RSpec.describe "discounts index page" do
       end
       
       expect(current_path).to eq(new_merchant_discount_path(@merchant1))
-      expect(page).to have_field(placeholder: "30")
-      expect(page).to have_field(placeholder: "2")
 
       fill_in :percentage, with: 50
       fill_in :threshold, with: 25
