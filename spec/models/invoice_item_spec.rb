@@ -8,9 +8,11 @@ RSpec.describe InvoiceItem, type: :model do
     it { should validate_presence_of :unit_price }
     it { should validate_presence_of :status }
   end
+
   describe "relationships" do
     it { should belong_to :invoice }
     it { should belong_to :item }
+    it { should have_many(:discounts).through(:item) }
   end
 
   describe "class methods" do
@@ -40,7 +42,7 @@ RSpec.describe InvoiceItem, type: :model do
     end
   end
 
-  describe "single_revenue" do
+  describe "discount methods" do
     before :each do
       @merchant1 = Merchant.create!(name: "Target")
       @merchant2 = Merchant.create!(name: "William-Sonoma")
@@ -59,21 +61,29 @@ RSpec.describe InvoiceItem, type: :model do
       @discount4 = @merchant2.discounts.create!(percentage: 10, threshold: 20)
     end
 
-    it "finds the discounted revenue from a single invoice_item" do
-      expect(@ii_1.single_revenue.round).to eq(63)
+    describe "#single_revenue" do
+      it "finds the discounted revenue from a single invoice_item" do
+        expect(@ii_1.single_revenue.round).to eq(63)
+      end
     end
 
-    it "determines if a discount is available" do
-      expect(@ii_1.discount_applicable?).to eq(true)
-      expect(@ii_11.discount_applicable?).to eq(false)
+    describe "#discount_applicable?" do
+      it "determines if a discount is available" do
+        expect(@ii_1.discount_applicable?).to eq(true)
+        expect(@ii_11.discount_applicable?).to eq(false)
+      end
     end
 
-    it "finds the discount id for the best available discount for an invoice item" do
-      expect(@ii_1.discount_id).to eq(@discount7.id)
+    describe "#discount_id" do
+      it "finds the discount id for the best available discount for an invoice item" do
+        expect(@ii_1.discount_id).to eq(@discount7.id)
+      end
     end
 
-    it "finds the best available discount" do
-      expect(@ii_1.best_available_discount).to eq([@discount7])
+    describe "#best_available_discount" do
+      it "finds the best available discount" do
+        expect(@ii_1.best_available_discount).to eq([@discount7])
+      end
     end
   end
 end

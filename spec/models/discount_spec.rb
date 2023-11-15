@@ -11,6 +11,7 @@ RSpec.describe Discount, type: :model do
   
   describe "relationships" do
     it { should belong_to :merchant }
+    it should { have_many(:invoice_items).through(:merchant) }
   end
 
   before :each do
