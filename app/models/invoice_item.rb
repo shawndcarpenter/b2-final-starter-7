@@ -7,6 +7,7 @@ class InvoiceItem < ApplicationRecord
 
   belongs_to :invoice
   belongs_to :item
+  has_many :discounts, through: :item
 
   enum status: [:pending, :packaged, :shipped]
 
@@ -33,6 +34,9 @@ class InvoiceItem < ApplicationRecord
   end
 
   def best_available_discount
-    Discount.where("threshold <= #{self.quantity}").order(percentage: :desc).limit(1)
+    Discount.joins(:invoice_items)
+            .where("discounts.threshold <= invoice_items.quantity and invoice_items.id = #{self.id}")
+            .order(percentage: :desc)
+            .limit(1)
   end
 end
