@@ -1,7 +1,7 @@
   <%= form_with model: @discount, method: method, url: url, class: 'discount_form', data: {turbo: false} do |f| %>  
     <%= f.label :percentage, 'Percentage Discounted:' %><br>
-    <%=  f.text_field :percentage, placeholder: "30" %><br>
+    <%=  f.text_field :percentage %><br>
     <%= f.label :threshold, 'Quantity Threshold:' %><br>
-    <%=  f.text_field :threshold, placeholder: "2" %><br>
+    <%=  f.text_field :threshold %><br>
     <%= f.submit %>
   <% end %>
